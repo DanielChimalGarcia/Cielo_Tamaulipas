@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
-import {v4 as uuidv4} from "uuid"
+import { v4 as uuidv4 } from "uuid";
 import BarraNav from "../components/BarraNav";
+import Footer from "../components/Footer";
+import "../CSS/Registrarse.css";
+import logoCielo from "../assets/images/imagen.webp";
 
 const Registro = () => {
-  const [datos, setDatos] = useState([]);
   const [formData, setFormData] = useState({
     nombre: "",
     apellidoPaterno: "",
@@ -38,7 +39,7 @@ const Registro = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const folio = generarFolioUnico();
-    console.log(folio)
+    console.log(folio);
     const consulta = encodeURIComponent(
       `CALL insertar_cliente('${folio}','${formData.nombre}','${formData.apellidoPaterno}','${formData.apellidoMaterno}','${formData.telefono}','${formData.direccion}','${formData.curp}','${formData.erefc}','${formData.email}','${formData.contraseña}')`
     );
@@ -46,107 +47,204 @@ const Registro = () => {
       .then((response) => response.json())
       .then((data) => {
         // Actualizar el estado con los datos de la base de datos
-        setDatos(data);
       })
       .catch((error) => console.error("Error:", error));
     console.log("Datos enviados:", formData);
+    setFormData({
+      nombre: "",
+    apellidoPaterno: "",
+    apellidoMaterno: "",
+    telefono: "",
+    direccion: "",
+    curp: "",
+    erefc: "",
+    email: "",
+    contraseña: "",
+    })
   };
 
   return (
     <>
-    <BarraNav/>
-    <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="nombre">
-        <Form.Label>Nombre</Form.Label>
-        <Form.Control
-          type="text"
-          name="nombre"
-          value={formData.nombre}
-          onChange={handleChange}
-        />
-      </Form.Group>
+      <BarraNav />
+      <section
+        className="u-clearfix u-image u-shading u-section-1"
+        data-image-width="735"
+        data-image-height="245"
+      >
+        <div className="u-clearfix u-sheet u-valign-middle u-sheet-1">
+          <div className="u-clearfix u-expanded-width u-gutter-0 u-layout-wrap u-layout-wrap-1">
+            <div className="u-layout">
+              <div className="u-layout-row">
+                <div class="u-align-left u-container-style u-layout-cell u-left-cell u-size-27-xl u-size-29-lg u-size-29-md  u-size-29-sm u-size-29-xs u-layout-cell-1">
+                  <div class="u-container-layout u-valign-top u-container-layout-1">
+                    <img
+                      class="u-image u-image-contain u-image-default u-image-1"
+                      src={logoCielo}
+                      alt=""
+                      data-image-width="525"
+                      data-image-height="425"
+                    />
+                  </div>
+                </div>
 
-      <Form.Group controlId="apellidoPaterno">
-        <Form.Label>Apellido Paterno</Form.Label>
-        <Form.Control
-          type="text"
-          name="apellidoPaterno"
-          value={formData.apellidoPaterno}
-          onChange={handleChange}
-        />
-      </Form.Group>
+                <div className="u-container-style u-layout-cell u-right-cell u-size-31-lg u-size-31-md u-size-31-sm u-size-31-xs u-size-33-xl u-layout-cell-2">
+                  <div className="u-container-layout u-container-layout-2">
+                    <div className="u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-form u-form-1">
+                      <form
+                        onSubmit={handleSubmit}
+                        className="u-clearfix u-form-spacing-30 u-form-vertical u-inner-form"
+                        source="email"
+                        name="form"
+                      >
+                        <div className="u-form-email u-form-group u-form-partition-factor-2">
+                          <label className="u-label u-text-body-alt-color u-label-1">
+                            {" "}
+                            Nombre
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="Introdusca su/s Nombre/s"
+                            name="nombre"
+                            value={formData.nombre}
+                            onChange={handleChange}
+                            className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
+                          />
+                        </div>
 
-      <Form.Group controlId="apellidoMaterno">
-        <Form.Label>Apellido Materno</Form.Label>
-        <Form.Control
-          type="text"
-          name="apellidoMaterno"
-          value={formData.apellidoMaterno}
-          onChange={handleChange}
-        />
-      </Form.Group>
+                        <div className="u-form-email u-form-group u-form-partition-factor-2">
+                          <label className="u-label u-text-body-alt-color u-label-1">
+                            {" "}
+                            Apellido paterno
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="Introdusca su Apellido paterno"
+                            name="apellidoPaterno"
+                            value={formData.apellidoPaterno}
+                            onChange={handleChange}
+                            className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
+                          />
+                        </div>
 
-      <Form.Group controlId="telefono">
-        <Form.Label>Número de Teléfono</Form.Label>
-        <Form.Control
-          type="number"
-          name="telefono"
-          value={formData.telefono}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group controlId="direccion">
-        <Form.Label>Direccion</Form.Label>
-        <Form.Control
-          type="text"
-          name="direccion"
-          value={formData.direccion}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group controlId="curp">
-        <Form.Label>CURP</Form.Label>
-        <Form.Control
-          type="text"
-          name="curp"
-          value={formData.curp}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group controlId="erefc">
-        <Form.Label>RFC</Form.Label>
-        <Form.Control
-          type="text"
-          name="erefc"
-          value={formData.erefc}
-          onChange={handleChange}
-        />
-      </Form.Group>
+                        <div className="u-form-email u-form-group u-form-partition-factor-2">
+                          <label className="u-label u-text-body-alt-color u-label-1">
+                            {" "}
+                            Apellido paterno
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="Introdusca su Apellido materno"
+                            name="apellidoMaterno"
+                            value={formData.apellidoMaterno}
+                            onChange={handleChange}
+                            className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
+                          />
+                        </div>
 
-      <Form.Group controlId="email">
-        <Form.Label>E-Mail</Form.Label>
-        <Form.Control
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-      </Form.Group>
+                        <div className="u-form-address u-form-group u-form-group-3">
+                          <label className="u-label u-text-body-alt-color u-label-3">
+                            Numero de telefono
+                          </label>
+                          <input
+                            type="number"
+                            placeholder="Introdusca su numero a 10 digitos"
+                            value={formData.telefono}
+                            onChange={handleChange}
+                            className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
+                            name="telefono"
+                          />
+                        </div>
 
-      <Form.Group controlId="contraseña">
-        <Form.Label>Contraseña</Form.Label>
-        <Form.Control
-          type="password"
-          name="contraseña"
-          value={formData.contraseña}
-          onChange={handleChange}
-        />
-      </Form.Group>
+                        <div className="u-form-address u-form-group u-form-group-3">
+                          <label className="u-label u-text-body-alt-color u-label-3">
+                            Direccion
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="Introdusca su Dirección"
+                            value={formData.direccion}
+                            onChange={handleChange}
+                            className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
+                            name="direccion"
+                          />
+                        </div>
 
-      <Button variant="primary" type="submit">
-        Registrarse
-      </Button>
-    </Form>
+                        <div className="u-form-address u-form-group u-form-group-3">
+                          <label className="u-label u-text-body-alt-color u-label-3">
+                            CURP
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="Introdusca su CURP"
+                            value={formData.curp}
+                            onChange={handleChange}
+                            className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
+                            name="curp"
+                          />
+                        </div>
+
+                        <div className="u-form-address u-form-group u-form-group-3">
+                          <label className="u-label u-text-body-alt-color u-label-3">
+                            RFC
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="Introdusca su RFC"
+                            value={formData.erefc}
+                            onChange={handleChange}
+                            className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
+                            name="erefc"
+                          />
+                        </div>
+
+                        <div className="u-form-address u-form-group u-form-group-3">
+                          <label className="u-label u-text-body-alt-color u-label-3">
+                            E-Mail
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="Introdusca su Correo electronico"
+                            value={formData.email}
+                            onChange={handleChange}
+                            className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
+                            name="email"
+                          />
+                        </div>
+
+                        <div className="u-form-address u-form-group u-form-group-3">
+                          <label className="u-label u-text-body-alt-color u-label-3">
+                            Contraseña
+                          </label>
+                          <input
+                            type="password"
+                            placeholder="Cree una contraseña max 20 caracteres"
+                            value={formData.contraseña}
+                            onChange={handleChange}
+                            className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
+                            name="contraseña"
+                          />
+                        </div>
+
+                        <div className="u-align-left u-form-group u-form-submit">
+                          <button
+                            type="submit"
+                            className="u-active-white u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-white u-palette-3-base u-radius-50 u-btn-1"
+                          >
+                            {" "}
+                            Ragistrarse
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </>
   );
 };

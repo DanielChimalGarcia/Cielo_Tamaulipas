@@ -1,33 +1,99 @@
 import React from "react";
 import BarraNav from "../components/BarraNav";
-import { Container } from "react-bootstrap";
-import img1 from "../assets/imagenes/prueba.webp"
+import img1 from "../assets/imagenes/prueba.webp";
+import Footer from "../components/Footer";
 
 function Casa() {
   return (
-    <div>
+    <>
       <BarraNav />
-      <Container
-        className="d-flex flex-column justify-content-center align-items-center"
-        style={{ minHeight: "100vh" }}
+      <section
+        class="u-align-center u-clearfix u-image u-shading u-section-1"
+        src=""
+        data-image-width="256"
+        data-image-height="256"
+        id="sec-5c2b"
       >
-        <h1>Mi Cielo tamaulipas</h1>
-        <img
-          src={img1}
-          width="960"
-          height="540"
-          className="d-inline-block align-top"
-          alt="Logo"
-        />
-        <img
-          src={img1}
-          width="960"
-          height="540"
-          className="d-inline-block align-top"
-          alt="Logo"
-        />
-      </Container>
-    </div>
+        <div class="u-clearfix u-sheet u-sheet-1">
+          <h1 class="u-text u-text-default u-title u-text-1">
+            El Cielo - Tamaulipas
+          </h1>
+          <p class="u-large-text u-text u-text-default u-text-variant u-text-2">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit nullam nunc
+            justo sagittis suscipit ultrices.
+          </p>
+
+          {/*Usar un Link para una futura pagina*/}
+          <a href="#" class="u-btn u-button-style u-palette-2-base u-btn-1">
+            Mas informes
+          </a>
+        </div>
+      </section>
+      <section className="u-align-center u-clearfix u-section-2">
+        <div className="u-clearfix u-sheet u-sheet-1">
+          <div className="u-clearfix u-expanded-width u-gutter-0 u-layout-wrap u-layout-wrap-1">
+            <div className="u-layout">
+              <div className="u-layout-row">
+                <div
+                  className="u-align-left u-container-style u-image u-layout-cell u-left-cell u-size-30 u-size-xs-60 u-image-1"
+                  data-image-width="1080"
+                  data-image-height="1080"
+                ></div>
+                <div className="u-align-left u-container-style u-layout-cell u-palette-1-base u-right-cell u-size-30 u-size-xs-60 u-layout-cell-2">
+                  <div className="u-container-layout u-valign-middle u-container-layout-2">
+                    <h2 className="u-text u-text-default u-text-1">
+                      Parte alta
+                    </h2>
+                    <p class="u-text u-text-2">
+                      Sample text. Lorem ipsum dolor sit amet, consectetur
+                      adipiscing elit nullam nunc justo sagittis suscipit
+                      ultrices.
+                    </p>
+                    <a
+                      href=""
+                      className="u-border-2 u-border-white u-btn u-btn-rectangle u-button-style u-none u-btn-1"
+                    >
+                      Ver Mas
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="u-clearfix u-expanded-width u-gutter-0 u-layout-wrap u-layout-wrap-1">
+            <div className="u-layout">
+              <div className="u-layout-row">
+                <div className="u-align-left u-container-style u-layout-cell u-palette-1-base u-right-cell u-size-30 u-size-xs-60 u-layout-cell-2">
+                  <div className="u-container-layout u-valign-middle u-container-layout-2">
+                    <h2 className="u-text u-text-default u-text-1">
+                      Parte Baja
+                    </h2>
+                    <p class="u-text u-text-2">
+                      Sample text. Lorem ipsum dolor sit amet, consectetur
+                      adipiscing elit nullam nunc justo sagittis suscipit
+                      ultrices.
+                    </p>
+                    <a
+                      href=""
+                      className="u-border-2 u-border-white u-btn u-btn-rectangle u-button-style u-none u-btn-1"
+                    >
+                      Ver Mas
+                    </a>
+                  </div>
+                </div>
+                <div
+                  className="u-align-left u-container-style u-image u-layout-cell u-left-cell u-size-30 u-size-xs-60 u-image-1"
+                  data-image-width="1080"
+                  data-image-height="1080"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <Footer/>
+    </>
   );
 }
 

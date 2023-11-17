@@ -4,6 +4,8 @@ import Error from './Routes/Error';
 import Casa from './Routes/Casa';
 import Registro from './Routes/Registro';
 import InicioSesion from './Routes/InicioSecion';
+import "./CSS/nicepage.css"
+import "./CSS/Inicio.css"
 
 function App() {
   const router = createBrowserRouter([
@@ -22,7 +24,8 @@ function App() {
     }
   ])
   return (
-    <div>
+    <div className='u-body u-xl-mode'>
+      
       <RouterProvider router={router}/>
     </div>
   );
