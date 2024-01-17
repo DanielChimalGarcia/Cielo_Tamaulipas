@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Nav from "react-bootstrap/Nav";
 import logoCielo from "../assets/images/imagen.webp";
+import { useAuth } from "../auth/AuthProvider";
+import { borrarCookie } from "../auth/deleteCokies";
+
 
 function BarraNav() {
+  const { isAuthenticate } = useAuth();
+
+  const closSecion = () =>{
+    borrarCookie('accessToken')
+    borrarCookie('user')
+  }
   return (
     <>
       <header
@@ -17,170 +25,115 @@ function BarraNav() {
       >
         <div className="u-clearfix u-sheet u-sheet-1">
           <div className="u-image u-logo u-image-1">
-            <img src={logoCielo} className="u-logo-image u-logo-image-1" />
+            <Link as={Link} to={"/LaViborita"}>
+              <img src={logoCielo} className="u-logo-image u-logo-image-1" />
+            </Link>
           </div>
-          
+
           <h2 className="u-custom-font u-font-montserrat u-text u-text-default u-text-1">
-            El Cielo </h2>
-          <nav >
+            El Cielo{" "}
+          </h2>
+          <nav>
             <div class="u-custom-menu u-nav-container">
               <ul class="u-nav u-unstyled u-nav-1">
                 <li class="u-nav-item">
-                  <Nav.Link
+                  <Link
                     className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
                     as={Link}
                     to={"/"}
                   >
                     Inicio
-                  </Nav.Link>
+                  </Link>
                 </li>
                 <li class="u-nav-item">
-                  <Nav.Link
+                  <Link
                     className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
                     as={Link}
-                    to={"/"}
+                    to={"/partealta"}
                   >
                     Parte alta
-                  </Nav.Link>
+                  </Link>
                 </li>
                 <li class="u-nav-item">
-                  <Nav.Link
+                  <Link
                     className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
                     as={Link}
-                    to={"/"}
+                    to={"/partebaja"}
                   >
                     Parte baja
-                  </Nav.Link>
+                  </Link>
                 </li>
                 <li class="u-nav-item">
-                  <Nav.Link
+                  <Link
                     className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
                     as={Link}
-                    to={"/"}
+                    to={"/Mis Reservaciones"}
                   >
-                    Hospedaje
-                  </Nav.Link>
+                    Mis reservaciones
+                  </Link>
                 </li>
                 <li class="u-nav-item">
-                  <Nav.Link
+                  <Link
                     className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
                     as={Link}
                     to={"/"}
                   >
                     ¿Comó llegar?
-                  </Nav.Link>
+                  </Link>
                 </li>
                 <li class="u-nav-item">
-                  <Nav.Link
+                  <Link
                     className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
                     as={Link}
                     to={"/"}
                   >
-                    Cotizar
-                  </Nav.Link>
+                    Dudas y Comentarios
+                  </Link>
                 </li>
-                <li class="u-nav-item">
-                  <Nav.Link
-                    className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
-                    as={Link}
-                    to={"/InicioSecion"}
-                  >
-                    Iniciar Sesión
-                  </Nav.Link>
-                </li>
-                <li class="u-nav-item">
-                  <Nav.Link
-                    className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
-                    as={Link}
-                    to={"/Registro"}
-                  >
-                    Registrarse
-                  </Nav.Link>
-                </li>
-              </ul>
-            </div>
 
-            <div className="u-custom-menu u-nav-container-collapse">
-              <div className="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
-                <div className="u-inner-container-layout u-sidenav-overflow">
-                  <div className="u-menu-close"></div>
-                  <ul className="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-4">
+                {isAuthenticate ? (
+                  <>
                     <li className="u-nav-item">
-                      <Nav.Link
+                      <Link
                         className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
                         as={Link}
-                        to={"/"}
+                        to={"/SecionUsuario"}
                       >
-                        Inicio
-                      </Nav.Link>
+                        Perfil
+                      </Link>
                     </li>
-
                     <li className="u-nav-item">
-                      <Nav.Link
+                      <label
                         className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
-                        as={Link}
-                        to={"/"}
+                        onClick={closSecion}
                       >
-                        Parte alta
-                      </Nav.Link>
+                        Cerrar Sesión
+                      </label>
                     </li>
-                    <li className="u-nav-item">
-                      <Nav.Link
-                        className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
-                        as={Link}
-                        to={"/"}
-                      >
-                        Parte baja
-                      </Nav.Link>
-                    </li>
-                    <li className="u-nav-item">
-                      <Nav.Link
-                        className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
-                        as={Link}
-                        to={"/"}
-                      >
-                        Hospedaje
-                      </Nav.Link>
-                    </li>
-                    <li className="u-nav-item">
-                      <Nav.Link
-                        className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
-                        as={Link}
-                        to={"/"}
-                      >
-                        ¿Comó llegar?
-                      </Nav.Link>
-                    </li>
-                    <li className="u-nav-item">
-                      <Nav.Link
-                        className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
-                        as={Link}
-                        to={"/"}
-                      >
-                        Cotizar
-                      </Nav.Link>
-                    </li>
-                    <li className="u-nav-item">
-                      <Nav.Link
+                  </>
+                ) : (
+                  <>
+                    <li class="u-nav-item">
+                      <Link
                         className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
                         as={Link}
                         to={"/InicioSecion"}
                       >
                         Iniciar Sesión
-                      </Nav.Link>
+                      </Link>
                     </li>
-                    <li className="u-nav-item">
-                      <Nav.Link
+                    <li class="u-nav-item">
+                      <Link
                         className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
                         as={Link}
                         to={"/Registro"}
                       >
                         Registrarse
-                      </Nav.Link>
+                      </Link>
                     </li>
-                  </ul>
-                </div>
-              </div>
+                  </>
+                )}
+              </ul>
             </div>
           </nav>
         </div>

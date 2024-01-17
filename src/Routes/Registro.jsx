@@ -1,71 +1,110 @@
 import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+//import { v4 as uuidv4 } from "uuid";
 import BarraNav from "../components/BarraNav";
 import Footer from "../components/Footer";
 import "../CSS/Registrarse.css";
 import logoCielo from "../assets/images/imagen.webp";
+import { API_URL } from "../auth/constans";
+import { useNavigate } from "react-router-dom";
 
 const Registro = () => {
-  const [formData, setFormData] = useState({
-    nombre: "",
-    apellidoPaterno: "",
-    apellidoMaterno: "",
-    telefono: "",
-    direccion: "",
-    curp: "",
-    erefc: "",
-    email: "",
-    contraseña: "",
-  });
+  const [nombre, setNombre] = useState("");
+  const [ap1, setAp1] = useState("");
+  const [ap2, setAp2] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorResponse, setErrorResponse] = useState("");
+
+  const goTo = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     // Validación para evitar caracteres no permitidos
-    if (!value.includes("/") && !value.includes("*")) {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
+    switch (name) {
+      case "nombre":
+        if (!value.includes("/") && !value.includes("*")) {
+          setNombre(value);
+        }
+        break;
+
+      case "apellidoPaterno":
+        if (!value.includes("/") && !value.includes("*")) {
+          setAp1(value);
+        }
+        break;
+
+      case "apellidoMaterno":
+        if (!value.includes("/") && !value.includes("*")) {
+          setAp2(value);
+        }
+        break;
+
+      case "email":
+        if (!value.includes("/") && !value.includes("*")) {
+          setEmail(value);
+        }
+        break;
+
+      case "contraseña":
+        if (!value.includes("/") && !value.includes("*")) {
+          setPassword(value);
+        }
+        break;
+      default:
+        console.log("nada");
+        break;
     }
   };
 
   //genera un folio unico
-  const generarFolioUnico = () => {
+  /*const generarFolioUnico = () => {
     const folio = uuidv4();
+    console.log(folio)
     return folio;
-  };
+  };*/
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const folio = generarFolioUnico();
-    console.log(folio);
-    const consulta = encodeURIComponent(
-      `CALL insertar_cliente('${folio}','${formData.nombre}','${formData.apellidoPaterno}','${formData.apellidoMaterno}','${formData.telefono}','${formData.direccion}','${formData.curp}','${formData.erefc}','${formData.email}','${formData.contraseña}')`
-    );
-    fetch(`http://localhost:3001/api/${consulta}`)
-      .then((response) => response.json())
-      .then((data) => {
-        // Actualizar el estado con los datos de la base de datos
-      })
-      .catch((error) => console.error("Error:", error));
-    console.log("Datos enviados:", formData);
-    setFormData({
-      nombre: "",
-    apellidoPaterno: "",
-    apellidoMaterno: "",
-    telefono: "",
-    direccion: "",
-    curp: "",
-    erefc: "",
-    email: "",
-    contraseña: "",
-    })
+
+    try {
+      const response = await fetch(`${API_URL}/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nombre,
+          ap1,
+          ap2,
+          email,
+          password,
+        }),
+      });
+
+      if (response.ok) {
+        console.log("El usuario se creo correctamente");
+        setNombre("");
+        setAp1("");
+        setAp2("");
+        setPassword("");
+        setEmail("");
+        setErrorResponse("");
+        goTo("/InicioSecion");
+      } else {
+        const errorData = await response.json(); // Intenta obtener el cuerpo JSON del error
+        console.log("Ocurrió un problema:", errorData.body.error);
+        setErrorResponse(errorData.body.error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <>
       <BarraNav />
+
       <section
         className="u-clearfix u-image u-shading u-section-1"
         data-image-width="735"
@@ -75,6 +114,8 @@ const Registro = () => {
           <div className="u-clearfix u-expanded-width u-gutter-0 u-layout-wrap u-layout-wrap-1">
             <div className="u-layout">
               <div className="u-layout-row">
+
+                
                 <div class="u-align-left u-container-style u-layout-cell u-left-cell u-size-27-xl u-size-29-lg u-size-29-md  u-size-29-sm u-size-29-xs u-layout-cell-1">
                   <div class="u-container-layout u-valign-top u-container-layout-1">
                     <img
@@ -94,7 +135,7 @@ const Registro = () => {
                         onSubmit={handleSubmit}
                         className="u-clearfix u-form-spacing-30 u-form-vertical u-inner-form"
                         source="email"
-                        name="form"
+                        name="formName"
                       >
                         <div className="u-form-email u-form-group u-form-partition-factor-2">
                           <label className="u-label u-text-body-alt-color u-label-1">
@@ -105,7 +146,7 @@ const Registro = () => {
                             type="text"
                             placeholder="Introdusca su/s Nombre/s"
                             name="nombre"
-                            value={formData.nombre}
+                            value={nombre}
                             onChange={handleChange}
                             className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
                           />
@@ -120,7 +161,7 @@ const Registro = () => {
                             type="text"
                             placeholder="Introdusca su Apellido paterno"
                             name="apellidoPaterno"
-                            value={formData.apellidoPaterno}
+                            value={ap1}
                             onChange={handleChange}
                             className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
                           />
@@ -135,7 +176,7 @@ const Registro = () => {
                             type="text"
                             placeholder="Introdusca su Apellido materno"
                             name="apellidoMaterno"
-                            value={formData.apellidoMaterno}
+                            value={ap2}
                             onChange={handleChange}
                             className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
                           />
@@ -143,74 +184,17 @@ const Registro = () => {
 
                         <div className="u-form-address u-form-group u-form-group-3">
                           <label className="u-label u-text-body-alt-color u-label-3">
-                            Numero de telefono
+                            Email/Correo electronico
                           </label>
                           <input
-                            type="number"
-                            placeholder="Introdusca su numero a 10 digitos"
-                            value={formData.telefono}
-                            onChange={handleChange}
-                            className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
-                            name="telefono"
-                          />
-                        </div>
-
-                        <div className="u-form-address u-form-group u-form-group-3">
-                          <label className="u-label u-text-body-alt-color u-label-3">
-                            Direccion
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="Introdusca su Dirección"
-                            value={formData.direccion}
-                            onChange={handleChange}
-                            className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
-                            name="direccion"
-                          />
-                        </div>
-
-                        <div className="u-form-address u-form-group u-form-group-3">
-                          <label className="u-label u-text-body-alt-color u-label-3">
-                            CURP
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="Introdusca su CURP"
-                            value={formData.curp}
-                            onChange={handleChange}
-                            className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
-                            name="curp"
-                          />
-                        </div>
-
-                        <div className="u-form-address u-form-group u-form-group-3">
-                          <label className="u-label u-text-body-alt-color u-label-3">
-                            RFC
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="Introdusca su RFC"
-                            value={formData.erefc}
-                            onChange={handleChange}
-                            className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
-                            name="erefc"
-                          />
-                        </div>
-
-                        <div className="u-form-address u-form-group u-form-group-3">
-                          <label className="u-label u-text-body-alt-color u-label-3">
-                            E-Mail
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="Introdusca su Correo electronico"
-                            value={formData.email}
+                            type="email"
+                            placeholder="Ingrese un correo valido"
+                            value={email}
                             onChange={handleChange}
                             className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
                             name="email"
                           />
                         </div>
-
                         <div className="u-form-address u-form-group u-form-group-3">
                           <label className="u-label u-text-body-alt-color u-label-3">
                             Contraseña
@@ -218,12 +202,20 @@ const Registro = () => {
                           <input
                             type="password"
                             placeholder="Cree una contraseña max 20 caracteres"
-                            value={formData.contraseña}
+                            value={password}
                             onChange={handleChange}
                             className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
                             name="contraseña"
                           />
                         </div>
+
+                        {!!errorResponse && (
+                          <div className="u-form-address u-form-group u-form-group-3">
+                            <label className="u-label u-text-body-alt-color u-label-3">
+                              {errorResponse}
+                            </label>
+                          </div>
+                        )}
 
                         <div className="u-align-left u-form-group u-form-submit">
                           <button

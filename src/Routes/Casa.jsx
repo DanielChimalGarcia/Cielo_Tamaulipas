@@ -2,6 +2,7 @@ import React from "react";
 import BarraNav from "../components/BarraNav";
 import img1 from "../assets/imagenes/prueba.webp";
 import Footer from "../components/Footer";
+import "../CSS/Inicio.css";
 
 function Casa() {
   return (
@@ -19,8 +20,12 @@ function Casa() {
             El Cielo - Tamaulipas
           </h1>
           <p class="u-large-text u-text u-text-default u-text-variant u-text-2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit nullam nunc
-            justo sagittis suscipit ultrices.
+            Bienvenidos a "El Cielo", un rincón paradisíaco en el corazón de
+            Tamaulipas, México. Sumérgete en la serenidad de la naturaleza y
+            descubre la magia de este destino único. Desde majestuosas cascadas
+            hasta exuberantes bosques, "El Cielo" ofrece una experiencia
+            inigualable para aquellos que buscan un escape tranquilo y
+            rejuvenecedor.
           </p>
 
           {/*Usar un Link para una futura pagina*/}
@@ -92,7 +97,7 @@ function Casa() {
           </div>
         </div>
       </section>
-      <Footer/>
+      <Footer />
     </>
   );
 }

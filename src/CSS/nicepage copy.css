@@ -4,7 +4,7 @@
  * Copyright 2014-2021 Froala Labs
  */
 
- .fr-clearfix::after {
+.fr-clearfix::after {
   clear: both;
   display: block;
   content: "";
@@ -7255,6 +7255,7 @@ section.u-image:not(.u-hover-box),
 }
 .u-body .u-sheet .u-sheet {
   width: 100% !important;
+  height: 100% !important;
 }
 .u-container-layout {
   position: relative;
@@ -41853,7 +41854,7 @@ a.u-link.u-text-hover-grey-90:hover {
 
 /*end-variables sitestylecss*/
  .u-header {
-  background-image: linear-gradient(0deg, rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url("../assets/imagenes/cielo.webp");
+  background-image: linear-gradient(0deg, rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url("images/692818.jpg");
   background-position: 50% 50%;
 }
 
