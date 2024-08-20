@@ -18,6 +18,7 @@ import EditCabana from "./Routes/EditCabana";
 import CabanaPreviw from "./Routes/CabanaPreviw";
 import MisReservas from "./Routes/MisReservas";
 import ParteBaja from "./Routes/ParteBaja";
+import Favoritos from "./Routes/Favoritos";
 
 function App() {
   const router = createBrowserRouter([
@@ -41,6 +42,10 @@ function App() {
     {
       path:"/partebaja",
       element: <ParteBaja/>
+    },
+    {
+      path:"/Favoritos",
+      element: <Favoritos/>
     },
     {
       path: "/Cabaña/:id",

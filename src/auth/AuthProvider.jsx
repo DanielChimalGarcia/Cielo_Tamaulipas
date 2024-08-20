@@ -7,7 +7,7 @@ const AuthContext = createContext({
 });
 
 export function AuthProvider({ children }) {
-  const [isAuthenticate, setIsAuthenticate] = useState(false);
+  const [isAuthenticate, setIsAuthenticate] = useState(true);
 
   const checkAuth = async () => {
     const clientCurrentTime = new Date();

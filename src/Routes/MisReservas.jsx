@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BarraNav from "../components/BarraNav";
 import Footer from "../components/Footer";
 import { obtenerDatos } from "../auth/GetData";
@@ -10,6 +10,7 @@ const MisReservas = () => {
   const [curp, setCurp] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [folio, setFolio] = useState('')
+  const idUser = sessionStorage.getItem('userId');
 
   const handlerChange = (e) => {
     const { name, value } = e.target;
@@ -18,7 +19,7 @@ const MisReservas = () => {
 
   const verDatos = async () => {
     try {
-      const consulta = `CALL ver_reservacion ('${curp}');`;
+      const consulta = `CALL ver_reservacion ('${idUser}');`;
       const response = await obtenerDatos(consulta);
       setData(response[0]);
       console.log(data);
@@ -26,6 +27,15 @@ const MisReservas = () => {
       console.error("Error:", error);
     }
   };
+
+  useEffect(()=>{
+    const consulta = `CALL ver_reservacion ('${idUser}')`;
+    obtenerDatos(consulta)
+    .then((response)=>{
+      setData(response[0])
+    })
+    .catch((error) => console.error("Error:", error));
+  },[])
 
   const handleOpenPopup = (fol) => {
     setIsPopupOpen(true);
@@ -79,22 +89,6 @@ const MisReservas = () => {
     <>
       <BarraNav />
       <section>
-        <div className="form-inline m-5">
-          <div className="form-group mx-sm-3 mb-2">
-            <label className="sr-only">por favor digite su CURP</label>
-            <input
-              name="curp"
-              value={curp}
-              type="text"
-              placeholder="por favor digite su curp"
-              onChange={handlerChange}
-              class="form-control"
-            />
-          </div>
-          <button onClick={verDatos} className="btn btn-success mb-2">
-            Comprovar
-          </button>
-        </div>
         <div className="m-2">
           {data.length > 0 ? (
             <>

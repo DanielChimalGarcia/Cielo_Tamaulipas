@@ -11,7 +11,8 @@ const SecionUsuario = () => {
   const [datos, setDatos] = useState([]);
   const [mostrarMenu, setMostrarMenu] = useState(false);
   
-  const userId = Cookies.get("user")
+  //const userId = Cookies.get("user")
+  const userId = sessionStorage.getItem('userId');
   const handleSubmit = () => {
     console.log(userId);
   };
@@ -28,10 +29,10 @@ const SecionUsuario = () => {
 
   //console.log(`dato ${JSON.stringify(datos, null, 2)}`);
 
-  const email = datos[0]?.[0]?.email || "Email no disponible";
+  const email = datos[0]?.[0]?.correo || "Email no disponible";
   const nombreCompleto = `${datos[0]?.[0]?.Nombre || ""} ${
-    datos[0]?.[0]?.Apellido1 || ""
-  } ${datos[0]?.[0]?.Apellido2 || ""}`;
+    datos[0]?.[0]?.Ape1 || ""
+  } ${datos[0]?.[0]?.Ape2 || ""}`;
 
   return (
     <>
@@ -41,7 +42,7 @@ const SecionUsuario = () => {
       <div className="contenedor">
       <NavDeunos email={email} mostrar={mostrarMenu}/>
       <div className="contenido-principal">      
-      <button className="buttonVer" onClick={() => setMostrarMenu(!mostrarMenu)}>Mostrar/ocultar menú</button>
+      {/* <button className="buttonVer" onClick={() => setMostrarMenu(!mostrarMenu)}>Mostrar/ocultar menú</button> */}
       <h3>{nombreCompleto}</h3>
       <div>
         <label>Sobre mi</label>

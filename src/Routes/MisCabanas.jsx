@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 const MisCabanas = () => {
   const [mostrarMenu, setMostrarMenu] = useState(false);
   const [datos, setDatos] = useState([]);
-  const userId = Cookies.get("user");
+  const userId = sessionStorage.getItem('userId');
   const goTo = useNavigate();
 
   useEffect(() => {

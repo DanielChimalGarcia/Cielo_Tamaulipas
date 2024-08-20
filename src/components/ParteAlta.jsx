@@ -144,8 +144,8 @@ const ParteAlta = () => {
                       <p>${item.Precio_Cabaña} MXN</p>
                       <p className="card-text">
                         <small className="text-muted">
-                          A Nombre de: {item.Nombre} {item.Apellido1}{" "}
-                          {item.Apellido2}
+                          A Nombre de: {item.Nombre} {item.Ape1}{" "}
+                          {item.Ape2}
                         </small>
                       </p>
                       <button

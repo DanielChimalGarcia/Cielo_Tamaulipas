@@ -8,10 +8,11 @@ function Footer() {
     >
       <div class="u-clearfix u-sheet u-sheet-1">
         <p class="u-small-text u-text u-text-variant u-text-1">
-          Texto de muestra. Haz click para seleccionar el elemento de Texto.
+        &copy; 2024 Reserva el cielo Tamaulipas, Todos los derechos reservados
         </p>
       </div>
     </footer>
+
   );
 }
 

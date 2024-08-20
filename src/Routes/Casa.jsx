@@ -3,6 +3,9 @@ import BarraNav from "../components/BarraNav";
 import img1 from "../assets/imagenes/prueba.webp";
 import Footer from "../components/Footer";
 import "../CSS/Inicio.css";
+import nuevaImagen from "../assets/imagenes/reserva-ecologica-biosfera-cielo-paraiso.webp";
+import nuevaImagen2 from "../assets/imagenes/reserva_el_cielo.jpg";
+
 
 function Casa() {
   return (
@@ -43,6 +46,7 @@ function Casa() {
                   className="u-align-left u-container-style u-image u-layout-cell u-left-cell u-size-30 u-size-xs-60 u-image-1"
                   data-image-width="1080"
                   data-image-height="1080"
+                  style={{ backgroundImage: `url(${nuevaImagen})` }}
                 ></div>
                 <div className="u-align-left u-container-style u-layout-cell u-palette-1-base u-right-cell u-size-30 u-size-xs-60 u-layout-cell-2">
                   <div className="u-container-layout u-valign-middle u-container-layout-2">
@@ -50,9 +54,10 @@ function Casa() {
                       Parte alta
                     </h2>
                     <p class="u-text u-text-2">
-                      Sample text. Lorem ipsum dolor sit amet, consectetur
-                      adipiscing elit nullam nunc justo sagittis suscipit
-                      ultrices.
+                    Es un escenario natural impresionante, 
+                    caracterizado por majestuosas cascadas y exuberantes bosques. 
+                    Este rincón paradisíaco en el corazón de México ofrece una experiencia única, 
+                    donde la serenidad de la naturaleza se combina con la magia de paisajes pintorescos.
                     </p>
                     <a
                       href=""
@@ -75,9 +80,11 @@ function Casa() {
                       Parte Baja
                     </h2>
                     <p class="u-text u-text-2">
-                      Sample text. Lorem ipsum dolor sit amet, consectetur
-                      adipiscing elit nullam nunc justo sagittis suscipit
-                      ultrices.
+                    Ofrece una serenidad única,
+                    este destino cautiva a aquellos que buscan un escape tranquilo y rejuvenecedor. 
+                    Experimenta la magia de la naturaleza en su máxima expresión,
+                    donde la flora y fauna crean un paisaje que invita a la exploración
+                     y la conexión con la belleza natural de México.
                     </p>
                     <a
                       href=""
@@ -91,6 +98,7 @@ function Casa() {
                   className="u-align-left u-container-style u-image u-layout-cell u-left-cell u-size-30 u-size-xs-60 u-image-1"
                   data-image-width="1080"
                   data-image-height="1080"
+                  style={{ backgroundImage: `url(${nuevaImagen2})` }}
                 ></div>
               </div>
             </div>

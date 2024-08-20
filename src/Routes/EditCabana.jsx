@@ -169,7 +169,7 @@ const EditCabana = () => {
       
       selectedCrts.map(async(item) =>{
         const folioreserv = Date.now();
-        const addcrt = `CALL addcaracteristica ('${item}${id}','${id}','${item}');`
+        const addcrt = `CALL addcaracteristica ('${folioreserv}${id}','${id}','${item}');`
         await obtenerDatos(addcrt)
         
       })

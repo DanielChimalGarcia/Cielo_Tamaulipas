@@ -30,7 +30,7 @@ const RegistroCaban = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Aquí puedes manejar la lógica para enviar el formulario
-    const id = Cookies.get("user");
+    const id = sessionStorage.getItem('userId');
     try {
       const consulta = `CALL insertar_cabaña (${id},'${formulario.nombre}','${formulario.descripcion}',${formulario.precio},'${formulario.capacidad}','${formulario.ubicacion}','${formulario.Maps}')`;
       const data = await obtenerDatos(consulta);

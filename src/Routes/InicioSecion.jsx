@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider";
 
 const InicioSecion = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [correo, setEmail] = useState("");
+  const [contrasenia, setPassword] = useState("");
   const [errorResponse, setErrorResponse] = useState("");
 
   const auth = useAuth();
@@ -19,7 +19,7 @@ const InicioSecion = () => {
 
     // Validación para evitar caracteres no permitidos
     switch (name) {
-      case "email":
+      case "correo":
         if (!value.includes("/") && !value.includes("*")) {
           setEmail(value);
         }
@@ -36,36 +36,42 @@ const InicioSecion = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch(`${API_URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
+    const requestInit = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        correo,
+        contrasenia,
+      })
+  }
 
-      if (response.ok) {
-        const data = await response.json();
-        const accessToken = data.body;
-        console.log(accessToken)
-        console.log("Acceso autorizado");
-        setPassword("");
-        setEmail("");
-        setErrorResponse("");
-        auth.login(accessToken);
-        goTo("/SecionUsuario");
+  fetch(`${API_URL}/log/validar`, requestInit)
+  .then(res => res.json())
+  .then(res => {
+      // Actualizar el estado con los datos de la base de datos
+      console.log('Usuario'+res[0][0].id_usuario);
+      console.log('Rol'+res[0][0].id_rol);
+
+      let id = res[0][0].id_usuario;
+      let rol = res[0][0].id_rol;
+      if (id != undefined){
+        console.log(id)
+        console.log(rol)
+        
+        sessionStorage.setItem('userId', id);
+        sessionStorage.setItem('rol', rol);
+        goTo('/SecionUsuario')
+        //navigate("/Registro/Info");
       } else {
-        const errorData = await response.json(); // Intenta obtener el cuerpo JSON del error
-        console.log("Ocurrió un problema:", errorData.body.error);
-        setErrorResponse(errorData.body.error);
+        alert('Usuario O Contraseña Incorrectos');
       }
-    } catch (error) {
-      console.log(error);
-    }
+      
+      
+      
+    })
+    .catch(error => console.error('Error:', error));
+
+
   };
 
   return (
@@ -107,8 +113,8 @@ const InicioSecion = () => {
                           </label>
                           <input
                             type="email"
-                            name="email"
-                            value={email}
+                            name="correo"
+                            value={correo}
                             onChange={handleChange}
                             className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
                           />
@@ -120,7 +126,7 @@ const InicioSecion = () => {
                           <input
                             type="password"
                             name="contraenia"
-                            value={password}
+                            value={contrasenia}
                             onChange={handleChange}
                             className="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle"
                           />

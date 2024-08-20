@@ -3,15 +3,31 @@ import { Link } from "react-router-dom";
 import logoCielo from "../assets/images/imagen.webp";
 import { useAuth } from "../auth/AuthProvider";
 import { borrarCookie } from "../auth/deleteCokies";
+import { useNavigate } from "react-router-dom"
 
 
 function BarraNav() {
+  const goTo = useNavigate();
+
   const { isAuthenticate } = useAuth();
 
-  const closSecion = () =>{
-    borrarCookie('accessToken')
-    borrarCookie('user')
-  }
+  const userId = sessionStorage.getItem('userId');
+  const rol = sessionStorage.getItem('rol');
+
+  console.log(`rol: ${rol}`);
+
+  /*const closSecion = () =>{
+    //borrarCookie('accessToken')
+    //borrarCookie('user')
+    sessionStorage.removeItem('userId');
+    sessionStorage.removeItem('rol'); 
+  }*/
+
+  const handleCerrarSesion = () => {
+    sessionStorage.removeItem('userId');
+    sessionStorage.removeItem('rol'); 
+    goTo('/');
+  };
   return (
     <>
       <header
@@ -45,6 +61,8 @@ function BarraNav() {
                     Inicio
                   </Link>
                 </li>
+                
+                {rol !== '1' ?  
                 <li class="u-nav-item">
                   <Link
                     className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
@@ -54,6 +72,9 @@ function BarraNav() {
                     Parte alta
                   </Link>
                 </li>
+                :null}
+                
+                {rol !== '1'  ? 
                 <li class="u-nav-item">
                   <Link
                     className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
@@ -63,6 +84,19 @@ function BarraNav() {
                     Parte baja
                   </Link>
                 </li>
+                :null}
+                {rol == '2' ? 
+                <li class="u-nav-item">
+                  <Link
+                    className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
+                    as={Link}
+                    to={"/Favoritos"}
+                  >
+                    Favoritos
+                  </Link>
+                </li>
+                : null}
+                {rol == '2' ? 
                 <li class="u-nav-item">
                   <Link
                     className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
@@ -72,6 +106,7 @@ function BarraNav() {
                     Mis reservaciones
                   </Link>
                 </li>
+                :null}
                 <li class="u-nav-item">
                   <Link
                     className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
@@ -81,17 +116,21 @@ function BarraNav() {
                     ¿Comó llegar?
                   </Link>
                 </li>
+                {rol == '1' ? 
                 <li class="u-nav-item">
                   <Link
                     className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
                     as={Link}
-                    to={"/"}
+                    to={"/Micabaña"}
                   >
-                    Dudas y Comentarios
+                    Mis Cabañas
                   </Link>
                 </li>
+                :null}
 
-                {isAuthenticate ? (
+                {/*isAuthenticate ? (*/}
+                 {rol != null ?
+
                   <>
                     <li className="u-nav-item">
                       <Link
@@ -105,13 +144,13 @@ function BarraNav() {
                     <li className="u-nav-item">
                       <label
                         className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
-                        onClick={closSecion}
+                        onClick={handleCerrarSesion}
                       >
                         Cerrar Sesión
                       </label>
                     </li>
                   </>
-                ) : (
+                 :
                   <>
                     <li class="u-nav-item">
                       <Link
@@ -122,7 +161,7 @@ function BarraNav() {
                         Iniciar Sesión
                       </Link>
                     </li>
-                    <li class="u-nav-item">
+                    {/*<li class="u-nav-item">
                       <Link
                         className="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
                         as={Link}
@@ -130,9 +169,11 @@ function BarraNav() {
                       >
                         Registrarse
                       </Link>
-                    </li>
+                </li>*/}
+                 
                   </>
-                )}
+                }
+               
               </ul>
             </div>
           </nav>

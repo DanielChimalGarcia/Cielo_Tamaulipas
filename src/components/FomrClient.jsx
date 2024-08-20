@@ -25,17 +25,10 @@ function FomrClient({ precioCab, clabeCab, onclose, fechas }) {
   const [endtDay, setEndDay] = useState("");
 
   const [curp, setCurp] = useState("");
+  const idUser = sessionStorage.getItem('userId');
   const [results, setResults] = useState([{ result: "" }]);
   const [folioClient, setFolioClient] = useState("");
-  const [dataClient, setDataClient] = useState({
-    nombre: "",
-    ap1: "",
-    ap2: "",
-    telefono: "",
-    direccion: "",
-    rfc: "",
-    email: "",
-  });
+  
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -63,66 +56,28 @@ function FomrClient({ precioCab, clabeCab, onclose, fechas }) {
     }
   };
 
-  const handleCurpCheck = async () => {
-    try {
-      const cons = `CALL compCurp ('${curp}')`;
-      const comp = await obtenerDatos(cons);
+ 
 
-      setResults(comp[0]);
-      //console.log(`resultado ${JSON.stringify(results, null,2)}`)
-      //console.log(`resultado ${results[0].result}`);
-    } catch (error) {
-      console.error("Error al verificar CURP:", error);
-    }
+  useEffect(()=>{
     setPrecioReal(parseFloat(precioCab));
     setClvB(clabeCab);
     setBlockedDates(fechas)
-    console.log(blockedDates)
-  };
+  },[])
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCurp(value);
-  };
-  const handleChange2 = (e) => {
-    const { name, value } = e.target;
-    setDataClient({
-      ...dataClient,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setFolioClient(uuidv4());
-    try {
-      console.log(folioClient);
-      const reg = `call insertar_cliente('${uuidv4()}','${
-        dataClient.nombre
-      }','${dataClient.ap1}','${dataClient.ap2}','${dataClient.telefono}','${
-        dataClient.direccion
-      }','${curp}','${dataClient.rfc}','${dataClient.email}')`;
-      await obtenerDatos(reg);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-
-    handleCurpCheck();
-  };
 
   const handleSubmitRes = async (e) => {
     e.preventDefault();
     setFolioClient(uuidv4());
+    console.log(`id de usuario: ${idUser}`)
     const folioreserv = Date.now();
     try {
       console.log(folioClient);
-      const reg = `call hacer_reservacion('${folioreserv}','${curp}','${clvB}','${startYear}-${startMonth}-${startDay}','${endYear}-${endtMonth}-${endtDay}','${price}')`;
+      const reg = `call hacer_reservacion('${folioreserv}',${idUser},'${clvB}','${startYear}-${startMonth}-${startDay}','${endYear}-${endtMonth}-${endtDay}','${price}')`;
+      console.log(reg)
       await obtenerDatos(reg);
     } catch (error) {
       console.error("Error:", error);
     }
-
-    handleCurpCheck();
   };
 
   const isDateBlocked = (date) => {
@@ -137,19 +92,7 @@ function FomrClient({ precioCab, clabeCab, onclose, fechas }) {
     <>
       <section>
         <div className="registro-caban">
-          <h2>Reservación</h2>
-          <label>Dijite su curp</label>
-          <input
-            type="text"
-            name="curp"
-            value={curp}
-            onChange={handleChange}
-            required
-          />
-          <button onClick={handleCurpCheck}>Buscar curp</button>
-          {results[0].result === "409" ? (
-            <>
-              <form onSubmit={handleSubmitRes}>
+          <form onSubmit={handleSubmitRes}>
                 
                 <div>
                   <label>Fecha de Entrada:</label>
@@ -192,74 +135,6 @@ function FomrClient({ precioCab, clabeCab, onclose, fechas }) {
                   <button type="submit">Reservar</button>
                 </div>
               </form>
-            </>
-          ) : results[0].result !== "" ? (
-            <>
-              <form onSubmit={handleSubmit}>
-              <h5>Le pedimos que ingrese algunos datos por favor</h5>
-                <label>Nombre:</label>
-                <input
-                  type="text"
-                  name="nombre"
-                  value={dataClient.nombre}
-                  onChange={handleChange2}
-                  required
-                />
-
-                <label>Apellido Paterno:</label>
-                <input
-                  type="text"
-                  name="ap1"
-                  value={dataClient.ap1}
-                  onChange={handleChange2}
-                  required
-                />
-                <label>Apellido materno:</label>
-                <input
-                  type="text"
-                  name="ap2"
-                  value={dataClient.ap2}
-                  onChange={handleChange2}
-                  required
-                />
-                <label>Telefono:</label>
-                <input
-                  type="text"
-                  name="telefono"
-                  value={dataClient.telefono}
-                  onChange={handleChange2}
-                  required
-                />
-                <label>Direccion:</label>
-                <input
-                  type="text"
-                  name="direccion"
-                  value={dataClient.direccion}
-                  onChange={handleChange2}
-                  required
-                />
-                <label>RFC:</label>
-                <input
-                  type="text"
-                  name="rfc"
-                  value={dataClient.rfc}
-                  onChange={handleChange2}
-                  required
-                />
-                <label>E-mail:</label>
-                <input
-                  type="text"
-                  name="email"
-                  value={dataClient.email}
-                  onChange={handleChange2}
-                  required
-                />
-                <button type="submit">Registrar</button>
-              </form>
-            </>
-          ) : (
-            <></>
-          )}
           <button onClick={onclose}>Cancelar</button>
         </div>
       </section>

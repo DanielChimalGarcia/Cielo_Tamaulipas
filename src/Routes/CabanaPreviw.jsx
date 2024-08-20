@@ -17,19 +17,23 @@ import Cookies from "js-cookie";
 import "../CSS/cabanapreview.css";
 import { API_URL } from "../auth/constans";
 import FomrClient from "../components/FomrClient";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 const CabanaPreviw = () => {
+  const rol = sessionStorage.getItem("rol");
+  const goTo = useNavigate();
   const [visble, setVisible] = useState(false);
   const [file, setFile] = useState(null);
   const { id } = useParams();
+  const idUser = sessionStorage.getItem("userId");
   const userId = Cookies.get("user");
-  const goTo = useNavigate();
   const [datos, setDatos] = useState([]);
   const [dates, setDates] = useState([]);
   const [dates2, setDates2] = useState([]);
   const [imageLis, setImageLis] = useState([]);
   const [caracteristicas, setCaracteristicas] = useState([]);
   const [precobt, setprecobt] = useState(0);
+  const [fav, setFav] = useState("");
   const [formulario, setFormulario] = useState({
     nombre: "",
     descripcion: "",
@@ -47,6 +51,39 @@ const CabanaPreviw = () => {
     } catch (error) {
       console.error("Error al llamar a la API:", error);
     }
+  };
+
+  const chetFav = async () => {
+    try {
+      const response = await obtenerDatos(
+        `call chectFav ('${idUser}','${id}')`
+      );
+      setFav(response[0]);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const chfav = fav.length > 0 ? fav : [{ dnulo: "" }, { dnulo: "" }];
+
+  const addFav = async () => {
+    if (chfav[0].results == "0") {
+      try {
+        await obtenerDatos(
+          `call addFav ('${idUser}_${id}','${idUser}','${id}')`
+        );
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    } else {
+      try {
+        await obtenerDatos(`call deleteFav ('${idUser}','${id}')`);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
+    chetFav();
   };
 
   useEffect(() => {
@@ -75,7 +112,10 @@ const CabanaPreviw = () => {
       })
       .catch((error) => console.error("Error:", error));
     vewImage();
-    console.log(`dato ${JSON.stringify(imageLis, null, 2)}`);
+    //console.log(`dato ${JSON.stringify(imageLis, null, 2)}`);
+    chetFav();
+    console.log(`favorito? ${JSON.stringify(fav, null, 2)}`);
+    //console.log(`favorito2? ${JSON.stringify(fav, null, 2)}`)
   }, []);
 
   const handleChange = (e) => {
@@ -126,13 +166,19 @@ const CabanaPreviw = () => {
   };
 
   const openpop = () => {
-    setprecobt(formulario.precio);
-    setDates(dates);
-    setVisible(true);
+    if (!idUser) {
+      goTo("/InicioSecion");
+    } else {
+      setprecobt(formulario.precio);
+      setDates(dates);
+      setVisible(true);
+    }
   };
 
-  const dataC = caracteristicas.length > 0 ? caracteristicas : [{ dnulo: "" }, { dnulo: "" }];
-
+  const dataC =
+    caracteristicas.length > 0
+      ? caracteristicas
+      : [{ dnulo: "" }, { dnulo: "" }];
 
   return (
     <>
@@ -157,7 +203,26 @@ const CabanaPreviw = () => {
               </>
             )}
           </Carousel>
-          <p className="lead">{formulario.descripcion}</p>
+          <Row>
+            <Col>
+              <p className="lead">{formulario.descripcion}</p>
+            </Col>
+            {!idUser ? (
+              <></>
+            ):(
+              <Col className="text-rigth">
+              <Button variant="link" onClick={addFav}>
+                {chfav[0].results == "0" ? (
+                  <FaHeart size="2rem" />
+                ) : (
+                  <FaHeart color="red" size="2rem" />
+                )}
+              </Button>
+            </Col>
+            )}
+            
+          </Row>
+
           <Row>
             <Col>
               <p>
@@ -179,13 +244,18 @@ const CabanaPreviw = () => {
               <h5>Caracteristicas</h5>
               <ListGroup>
                 {dataC[0].length > 0 ? (
-                  dataC[0].map((item, index)=>(
-                    <ListGroup.Item key={index}>{item.Descripcion}</ListGroup.Item>
+                  dataC[0].map((item, index) => (
+                    <ListGroup.Item key={index}>
+                      {item.Descripcion}
+                    </ListGroup.Item>
                   ))
-                ):(<></>)}
+                ) : (
+                  <></>
+                )}
               </ListGroup>
             </Col>
           </Row>
+
           <Button className="m-5" variant="success" onClick={() => openpop()}>
             Reservar
           </Button>
